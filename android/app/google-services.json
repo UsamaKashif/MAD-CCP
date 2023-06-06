@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1073752694600",
+    "project_id": "madccp-82d1e",
+    "storage_bucket": "madccp-82d1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073752694600:android:e7e6a13d92d26add29dd7d",
+        "android_client_info": {
+          "package_name": "com.example.mad_ccp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073752694600-5d0uk1q2r9aon5p5k1b23k2ff0k32ft2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnsrOKKijx_iUYA9iS2mcQYQnYo5fMdGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073752694600-5d0uk1q2r9aon5p5k1b23k2ff0k32ft2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1073752694600-cvbi692rbd49tu8gltvr591gpeuf115d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.madCcp.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
