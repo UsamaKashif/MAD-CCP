@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mad_ccp/screens/login_screen.dart';
 import 'package:mad_ccp/utils/colors.dart';
 
 class SignUp extends StatefulWidget {
@@ -29,6 +30,12 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     hintText: "Password", label: Text("Password")),
               ),
+              const TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                    hintText: "Confirm Password",
+                    label: Text("Confirm Password")),
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -38,7 +45,22 @@ class _SignUpState extends State<SignUp> {
                     foregroundColor: Colors.white),
                 onPressed: () {},
                 child: const Text("Sign Up"),
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Already have an account?"),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()),
+                        );
+                      },
+                      child: const Text("Sign In"))
+                ],
+              ),
             ],
           ),
         ),
