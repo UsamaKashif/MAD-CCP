@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mad_ccp/screens/home_screen.dart';
 import 'package:mad_ccp/screens/signup_screen.dart';
 import 'package:mad_ccp/utils/colors.dart';
 
@@ -36,7 +37,12 @@ class _LoginState extends State<Login> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  );
+                },
                 child: const Text("Sign In"),
               ),
               Row(
