@@ -10,15 +10,12 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
+  static String valeriaRound = GoogleFonts.varelaRound().fontFamily ?? '';
+  static String openSans = GoogleFonts.openSans().fontFamily ?? '';
+
   static TextStyle secondaryTextStyle = TextStyle(
     fontFamily: GoogleFonts.openSans().fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.normal,
-  );
-
-  static const TextStyle buttonTextStyle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
   );
 }
