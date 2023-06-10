@@ -1,9 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mad_ccp/models/user_model.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<UserModel> getUserDetails() async {
+    User user = _auth.currentUser!;
+    DocumentSnapshot doc =
+        await _firestore.collection("users").doc(user.uid).get();
+    return UserModel.fromSnap(doc);
+  }
 
   Future<String> signUpUser({
     required String email,
@@ -19,12 +27,14 @@ class AuthMethods {
         password: password,
       );
 
-      await _firestore.collection("users").doc(cred.user!.uid).set({
-        "email": email,
-        "fullName": fullName,
-        "score": 0,
-        "recent_game": null,
-      });
+      UserModel user = UserModel(
+        email: email,
+        fullName: fullName,
+      );
+
+      await _firestore.collection("users").doc(cred.user!.uid).set(
+            user.toJson(),
+          );
 
       return "Success";
     } on FirebaseAuthException catch (e) {

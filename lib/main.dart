@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/screens/home_screen.dart';
 import 'package:mad_ccp/screens/signup_screen.dart';
 import 'package:mad_ccp/utils/colors.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -19,33 +21,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Learn N Play',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primaryColor,
-          background: AppColors.white,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      child: MaterialApp(
+        title: 'Learn N Play',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: AppColors.primaryColor,
+            background: AppColors.white,
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      home: StreamBuilder(
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return const HomeScreen();
+        home: StreamBuilder(
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return const HomeScreen();
+              } else {
+                return const SignUp();
+              }
             } else {
-              return const SignUp();
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
-          } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-        stream: FirebaseAuth.instance.authStateChanges(),
+          },
+          stream: FirebaseAuth.instance.authStateChanges(),
+        ),
       ),
     );
   }
