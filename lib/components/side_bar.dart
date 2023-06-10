@@ -21,10 +21,10 @@ class _SideBarState extends State<SideBar> {
       showSnackBar("Signed out", context);
     }
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Login()),
-    );
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Login()),
+        (Route<dynamic> route) => false);
   }
 
   @override

@@ -48,8 +48,10 @@ class _SignUpState extends State<SignUp> {
 
     if (res == "Success") {
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (Route<dynamic> route) => false);
     }
   }
 
