@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mad_ccp/components/button.dart';
 import 'package:mad_ccp/components/input.dart';
+import 'package:mad_ccp/screens/home_screen.dart';
 import 'package:mad_ccp/screens/login_screen.dart';
+import 'package:mad_ccp/utils/auth_methods.dart';
 import 'package:mad_ccp/utils/colors.dart';
 import 'package:mad_ccp/utils/fonts.dart';
+import 'package:mad_ccp/utils/utils.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -16,6 +19,39 @@ class _SignUpState extends State<SignUp> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signUpUser(
+      email: emailController.text,
+      password: passwordController.text,
+      fullName: fullNameController.text,
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    // ignore: use_build_context_synchronously
+    showSnackBar(res, context);
+
+    if (res == "Success") {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +106,10 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(height: 24),
                 Button(
                   text: "Create Account",
-                  onPressed: () {
-                    // print the values of the text fields
-                    print(fullNameController.text);
-                    print(emailController.text);
-                    print(passwordController.text);
-                  },
+                  onPressed: signUpUser,
+                  isLoading: _isLoading,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

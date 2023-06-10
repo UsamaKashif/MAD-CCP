@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mad_ccp/components/button.dart';
 import 'package:mad_ccp/components/input.dart';
+import 'package:mad_ccp/screens/home_screen.dart';
 import 'package:mad_ccp/screens/signup_screen.dart';
+import 'package:mad_ccp/utils/auth_methods.dart';
 import 'package:mad_ccp/utils/colors.dart';
 import 'package:mad_ccp/utils/fonts.dart';
+import 'package:mad_ccp/utils/utils.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,6 +18,36 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    // ignore: use_build_context_synchronously
+    showSnackBar(res, context);
+    if (res == "Success") {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +97,10 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 24),
                 Button(
                   text: "Log In",
-                  onPressed: () {},
+                  onPressed: loginUser,
+                  isLoading: _isLoading,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
