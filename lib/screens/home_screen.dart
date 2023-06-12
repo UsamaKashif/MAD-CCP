@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mad_ccp/components/game_card.dart';
 import 'package:mad_ccp/components/games.dart';
-import 'package:mad_ccp/components/side_bar.dart';
-import 'package:mad_ccp/models/game_model.dart';
-import 'package:mad_ccp/models/user_model.dart';
 import 'package:mad_ccp/providers/games_provider.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/utils/colors.dart';

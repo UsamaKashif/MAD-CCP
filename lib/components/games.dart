@@ -64,23 +64,6 @@ class _GamesState extends State<Games> {
                 },
               ),
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 16,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "More games coming soon!",
-                    style: TextStyle(
-                      fontFamily: AppFonts.openSans,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),
