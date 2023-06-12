@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mad_ccp/providers/games_provider.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/screens/home_screen.dart';
 import 'package:mad_ccp/screens/signup_screen.dart';
@@ -22,7 +23,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => GamesProvider()),
+      ],
       child: MaterialApp(
         title: 'Learn N Play',
         debugShowCheckedModeBanner: false,
@@ -41,12 +45,14 @@ class MyApp extends StatelessWidget {
               } else {
                 return const SignUp();
               }
-            } else {
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
                 ),
               );
+            } else {
+              return const SignUp();
             }
           },
           stream: FirebaseAuth.instance.authStateChanges(),

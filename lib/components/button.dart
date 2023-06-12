@@ -5,7 +5,7 @@ import 'package:mad_ccp/utils/fonts.dart';
 class Button extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  final isLoading;
+  final bool isLoading;
   const Button(
       {super.key,
       required this.text,

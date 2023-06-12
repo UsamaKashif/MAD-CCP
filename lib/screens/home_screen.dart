@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mad_ccp/components/game_card.dart';
+import 'package:mad_ccp/components/games.dart';
 import 'package:mad_ccp/components/side_bar.dart';
+import 'package:mad_ccp/models/game_model.dart';
 import 'package:mad_ccp/models/user_model.dart';
+import 'package:mad_ccp/providers/games_provider.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/utils/colors.dart';
 import 'package:mad_ccp/utils/fonts.dart';
@@ -17,45 +21,75 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    addData();
+    run();
   }
 
+  run() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await addData();
+    await loadGames();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  bool _isLoading = false;
+  bool _isGamesLoading = false;
+
   addData() async {
+    setState(() {
+      _isLoading = true;
+    });
     UserProvider userProvider = Provider.of(context, listen: false);
     await userProvider.refreshUser();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  loadGames() async {
+    setState(() {
+      _isGamesLoading = true;
+    });
+    GamesProvider gamesProvider = Provider.of(context, listen: false);
+    await gamesProvider.refreshGames();
+    setState(() {
+      _isGamesLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    UserModel user = Provider.of<UserProvider>(context).getUser as UserModel;
-    return Scaffold(
-      endDrawer: const SideBar(),
-      appBar: AppBar(
-        backgroundColor: AppColors.accentColor,
-        foregroundColor: AppColors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Learn N Play",
-              style: TextStyle(
-                fontFamily: AppFonts.valeriaRound,
-                fontWeight: FontWeight.w900,
-                fontSize: 18,
+    // get games
+    return _isLoading || _isGamesLoading
+        ? Scaffold(
+            backgroundColor: AppColors.primaryColor,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Getting Ready",
+                    style: TextStyle(
+                      fontFamily: AppFonts.openSans,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  const CircularProgressIndicator(
+                    color: AppColors.white,
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Welcome"),
-            Text(user.fullName),
-          ],
-        ),
-      ),
-    );
+          )
+        : const Games();
   }
 }

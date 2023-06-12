@@ -10,7 +10,7 @@ class UserModel {
     required this.email,
     required this.fullName,
     this.score = 0,
-    this.recentGame,
+    this.recentGame = "null",
   });
 
   Map<String, dynamic> toJson() {
