@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mad_ccp/providers/games_provider.dart';
+import 'package:mad_ccp/providers/progress_provider.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/screens/home_screen.dart';
 import 'package:mad_ccp/screens/signup_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => GamesProvider()),
+        ChangeNotifierProvider(create: (_) => ProgressProvider())
       ],
       child: MaterialApp(
         title: 'Learn N Play',

@@ -36,6 +36,12 @@ class AuthMethods {
             user.toJson(),
           );
 
+      // initialize the progress of 2 games, counting and spelling
+      await _firestore
+          .collection("progress")
+          .doc(cred.user!.uid)
+          .set({"counting": 1, "spelling": 1});
+
       return "Success";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -84,6 +90,19 @@ class AuthMethods {
       return "Signed out successfully";
     } catch (e) {
       return Future.value(e.toString());
+    }
+  }
+
+  // update user score
+  Future<void> updateUserScore(String userId, int score) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .set({"score": score}, SetOptions(merge: true));
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
     }
   }
 }

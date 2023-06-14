@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mad_ccp/models/game_model.dart';
-import 'package:mad_ccp/providers/games_provider.dart';
-import 'package:mad_ccp/screens/counting_game.dart';
+import 'package:mad_ccp/screens/levels_screen.dart';
 import 'package:mad_ccp/utils/colors.dart';
 import 'package:mad_ccp/utils/fonts.dart';
-import 'package:provider/provider.dart';
 
 class GameCard extends StatelessWidget {
   final GameModel game;
@@ -18,7 +16,7 @@ class GameCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CountingGameScreen(gameId: game.name.toLowerCase());
+              return LevelsScreen(gameId: game.name.toLowerCase());
             },
           ),
         );
