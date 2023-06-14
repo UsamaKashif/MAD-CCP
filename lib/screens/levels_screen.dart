@@ -17,7 +17,7 @@ class LevelsScreen extends StatefulWidget {
 }
 
 class _LevelsScreenState extends State<LevelsScreen> {
-  bool _isLoading = false;
+  bool? _isLoading = false;
 
   @override
   void initState() {
@@ -38,11 +38,11 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List g = Provider.of<GamesProvider>(context).getGameLevels;
-    Map<String, dynamic> progress =
-        Provider.of<ProgressProvider>(context).getProgress!;
+    List? g = Provider.of<GamesProvider>(context).getGameLevels;
+    Map<String, dynamic>? progress = Provider.of<ProgressProvider>(context)
+        .getProgress as Map<String, dynamic>;
     int currentLevel = progress[widget.gameId];
-    return _isLoading
+    return _isLoading!
         ? const Scaffold(
             backgroundColor: AppColors.primaryColor,
             body: Center(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mad_ccp/models/user_model.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/screens/login_screen.dart';
+import 'package:mad_ccp/screens/progress_screen.dart';
 import 'package:mad_ccp/utils/auth_methods.dart';
 import 'package:mad_ccp/utils/colors.dart';
 import 'package:mad_ccp/utils/fonts.dart';
@@ -90,6 +91,32 @@ class _SideBarState extends State<SideBar> {
                       child: Text("${user.score}"),
                     ),
                   ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const ProgressScreen();
+                      }));
+                    },
+                    contentPadding: const EdgeInsets.all(12),
+                    tileColor: AppColors.accentColor,
+                    titleTextStyle: TextStyle(
+                      fontFamily: AppFonts.valeriaRound,
+                      color: AppColors.white,
+                      fontSize: 24,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    title: const Text("My Progress"),
+                    leading: const Icon(
+                      Icons.bar_chart,
+                      color: AppColors.white,
+                    ),
+                  )
                 ],
               ),
               ListTile(

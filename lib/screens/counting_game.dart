@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_ccp/models/user_model.dart';
@@ -5,6 +7,8 @@ import 'package:mad_ccp/providers/progress_provider.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
 import 'package:mad_ccp/screens/success_screen.dart';
 import 'package:mad_ccp/utils/auth_methods.dart';
+import 'package:mad_ccp/utils/colors.dart';
+import 'package:mad_ccp/utils/fonts.dart';
 import 'package:mad_ccp/utils/progress_methods.dart';
 import 'package:mad_ccp/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +29,8 @@ class CountingGameScreen extends StatefulWidget {
 }
 
 class _CountingGameScreenState extends State<CountingGameScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
   final List<Widget> _circleWidgets = [];
+  final List<Widget> _numberTiles = [];
 
   final ProgressMethods _progressMethods = ProgressMethods();
   final AuthMethods _authMethods = AuthMethods();
@@ -36,10 +40,12 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
   void initState() {
     super.initState();
     _createCircles();
+    _createNumberTiles();
+    // randomize the number tiles
+    _numberTiles.shuffle();
   }
 
-  void checkAnswer() async {
-    int answer = int.parse(_textEditingController.text);
+  void checkAnswer(int answer) async {
     if (widget.level != widget.currentLevel) {
       if (answer == widget.level) {
         showSnackBar("Correct Answer", context);
@@ -80,7 +86,8 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counting Game: Level ${widget.level}'),
+        centerTitle: true,
+        title: const Text('Counting Game'),
       ),
       body: Column(
         children: [
@@ -90,25 +97,21 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
               children: _circleWidgets,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: _textEditingController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter circle count',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16.0),
-                ElevatedButton(
-                  onPressed: checkAnswer,
-                  child: const Text('Submit'),
-                ),
-              ],
+          Text(
+            'Select the correct number of circles',
+            style: TextStyle(
+              fontFamily: AppFonts.openSans,
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 3,
+              children: _numberTiles,
             ),
           ),
         ],
@@ -136,5 +139,57 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
         );
       }
     });
+  }
+
+  List _generateRandomNumber() {
+    var random = Random();
+    var list = List.generate(6, (_) => random.nextInt(10));
+    return list;
+  }
+
+  void _createNumberTiles() {
+    // create a list of numbers from 1 to 5
+    // shuffle the list
+    // create a grid view of the numbers
+
+    // create a list of 5 random numbers, and it should include the currentLevel
+    List randomNumbers = _generateRandomNumber();
+    // check if the list contains the currentLevel
+    if (!randomNumbers.contains(widget.level)) {
+      // if not, replace the first number with the currentLevel
+      randomNumbers[0] = widget.level;
+    }
+
+    for (int i = 0; i < randomNumbers.length; i++) {
+      // create a number tile
+      // add it to a list
+      setState(() {
+        _numberTiles.add(
+          GestureDetector(
+            onTap: () {
+              checkAnswer(randomNumbers[i]);
+            },
+            child: Container(
+              margin: const EdgeInsets.all(8.0),
+              width: 100.0,
+              height: 100.0,
+              child: Card(
+                color: AppColors.primaryColor,
+                child: Center(
+                  child: Text(
+                    randomNumbers[i].toString(),
+                    style: TextStyle(
+                      fontFamily: AppFonts.openSans,
+                      color: Colors.white,
+                      fontSize: 24.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+    }
   }
 }

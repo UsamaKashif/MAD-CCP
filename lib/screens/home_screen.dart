@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_ccp/components/games.dart';
-import 'package:mad_ccp/models/user_model.dart';
 import 'package:mad_ccp/providers/games_provider.dart';
 import 'package:mad_ccp/providers/progress_provider.dart';
 import 'package:mad_ccp/providers/user_provider.dart';
